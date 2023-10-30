@@ -74,18 +74,11 @@ export class TaskContentComponent extends ItemBase<Task> implements AddRemoveIte
       });
   }
 
-  onDuplicateItem(itemId: string): void {
-    const auxOne = this.taskService.getCurrentProjectSubject()
-    combineLatest([auxOne]).pipe(take(1)).subscribe(value => {
-      if (value [ 0 ].id, itemId){
-        this.taskService.duplicateItem(value[0].id ,itemId);
-        this.uiService.showSnackbar(SnackbarType.SUCCESS,
-          environment.taskSuccessfullyDuplicated,
-          SnackbarTime.SHORT
-        );
-      }
-    })
+  async onDuplicate(task: Task): Promise<void> {
+    const newTaf = new Task(new Date(), task.id, task.title, task.secondTitle , task.description);
 
-    console.log('feito')
+    this.taskService.getCurrentProjectSubject().subscribe(project => {
+      project.tasks.push(newTaf);
+    })
   }
 }

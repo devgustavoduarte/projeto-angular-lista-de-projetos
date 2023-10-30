@@ -28,7 +28,7 @@ export class TaskCategoriesComponent extends ItemBase<Project> implements AddRem
 
       this.taskService.addItem(
         new Project('01', 'Titulo - Projeto', '', 'Descricao',
-        [new Task(new Date(),'01', 'Titulo - Tarefa', 'Tarefa', 'Descriçao',)
+        [new Task(new Date(),'01', 'Titulo - Tarefa', 'Tarefa', '- Duplicado' , 'Descriçao',)
       ]));
 
       taskService.getCurrentProjectSubject().next(this.taskService.getProjects()[0]);

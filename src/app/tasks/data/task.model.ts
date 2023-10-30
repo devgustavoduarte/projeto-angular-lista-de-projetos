@@ -14,6 +14,7 @@ export class Task {
     public id: string = new Date().getTime().toString(),
     public title: string = '',
     public secondTitle: string = '',
+    public duplicate: string = '',
     public description: string = '',){
   }
 }
