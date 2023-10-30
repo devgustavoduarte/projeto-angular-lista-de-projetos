@@ -1,8 +1,6 @@
-<ng-container
-  *ngTemplateOutlet="(taskService.getCurrentProjectSubject() | async) == null ?
+<ng-container *ngTemplateOutlet="(taskService.getCurrentProjectSubject() | async) == null ?
   projectNotSelected : (taskService.getCurrentProjectSubject() | async) ?.tasks.length > 0 ?
-  contentHasTasKItems : projectContentEmpty"
-></ng-container>
+  contentHasTasKItems : projectContentEmpty"></ng-container>
 
 <ng-template #projectNotSelected>
   <div class="empty-container-wrapper">
@@ -24,33 +22,22 @@
   <mat-accordion class="example-headers-align">
 
     <div *ngFor="let task of (taskService.getCurrentProjectSubject() | async)?.tasks; index as i">
-      <mat-expansion-panel
-        [expanded]="currentTaskIndex === i"
-        (opened)="setTaskIndex(i)"
-        hideToggle
+      <mat-expansion-panel [expanded]="currentTaskIndex === i" (opened)="setTaskIndex(i)" hideToggle
         class="minimal-padding">
-      <mat-expansion-panel-header>
+        <mat-expansion-panel-header>
 
-      <div
-        fxLayout="row"
-        fxLayout.lt-md="column"
-        fxLayoutAlign="space-between center"
-        class="full-width">
-          <p fxFlex="25"> {{ task.title }} </p>
-          <p fxFlex="25"> {{ task.description | shortText: 10 }} </p>
-          <p fxFlex="25"> {{ task.date | timestamp | async }} </p>
-          <p fxFlex="25"> {{ task.date | date: 'dd/MM/yyyy h:mm a'}} </p>
-          <mat-icon
-              [ngClass]="task.date | taskPriorityIcon | async"
-              fxFlex="25"
-              >notification_important
-          </mat-icon>
-      </div>
+          <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center" class="full-width">
+            <p fxFlex="25"> {{ task.secondTitle }} </p>
+            <p fxFlex="25"> {{ task.date | date: 'dd/MM/yyyy h:mm a'}} </p>
+            <mat-icon [ngClass]="task.date | taskPriorityIcon | async" fxFlex="25">notification_important
+            </mat-icon>
+          </div>
 
-      </mat-expansion-panel-header>
+        </mat-expansion-panel-header>
         <p>{{ task.description }}</p>
         <mat-action-row>
           <button mat-button color="warn" (click)="onRemoveItem(task.id)"><b>Remover</b></button>
+          <button mat-button color="warn" (click)="onDuplicateItem(task.id)"><b>Duplicate</b></button>
           <button mat-button class="font-white" (click)="previousTask()"><b>Anterior</b></button>
           <button mat-button class="font-white" (click)="nextTask()"><b>Próximo</b></button>
         </mat-action-row>
@@ -60,7 +47,5 @@
   </mat-accordion>
 </ng-template>
 
-<float-button
-  *ngIf="(taskService.getCurrentProjectSubject() | async) != null"
-  (isTaskAdded)="onAddItem()">
+<float-button *ngIf="(taskService.getCurrentProjectSubject() | async) != null" (isTaskAdded)="onAddItem()">
 </float-button>

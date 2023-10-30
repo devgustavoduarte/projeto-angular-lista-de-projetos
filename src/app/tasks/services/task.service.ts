@@ -8,7 +8,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class TaskService {
 
-  private readonly project: Project[] = [];
+  private project: Project[] = [];
   private currentProjectSubject: Subject<Project> = new BehaviorSubject(null);
 
   public addItem(project: Project, task?: Task): void {
@@ -27,6 +27,12 @@ export class TaskService {
     } else {
       this.project.splice(this.getItemIndex(projectId), 1);
       this.clearCurrentProjectSubjectOnUnselect();
+    }
+  }
+
+  public duplicateItem(projectId: string, taskId?: string, task?: Task): void {
+    if(projectId) {
+      this.project.find(value => value.id === taskId).tasks.push(task)
     }
   }
 

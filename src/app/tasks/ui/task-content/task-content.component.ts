@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../../services/task.service';
-import { Task } from '../../data/task.model';
+import { Project, Task } from '../../data/task.model';
 import { AddRemoveItem } from '../../core/AddRemoveItem';
 import { UserInterfaceService } from '../../services/user-interface.service';
 import { ItemType } from '../../core/base/ItemType';
@@ -72,5 +72,20 @@ export class TaskContentComponent extends ItemBase<Task> implements AddRemoveIte
           );
         }
       });
+  }
+
+  onDuplicateItem(itemId: string): void {
+    const auxOne = this.taskService.getCurrentProjectSubject()
+    combineLatest([auxOne]).pipe(take(1)).subscribe(value => {
+      if (value [ 0 ].id, itemId){
+        this.taskService.duplicateItem(value[0].id ,itemId);
+        this.uiService.showSnackbar(SnackbarType.SUCCESS,
+          environment.taskSuccessfullyDuplicated,
+          SnackbarTime.SHORT
+        );
+      }
+    })
+
+    console.log('feito')
   }
 }

@@ -7,6 +7,7 @@ import { UserInterfaceService } from '../../services/user-interface.service';
 import { SnackbarType } from '../../utils/handlers/SnackbarType';
 import { environment } from '../../../../environments/environment.prod';
 import { SnackbarTime } from '../../utils/handlers/SnackbarTime';
+import { FloatButtonComponent } from '../float-button/float-button.component';
 
 @Component({
   selector: 'app-add-item-dialog',
@@ -14,7 +15,7 @@ import { SnackbarTime } from '../../utils/handlers/SnackbarTime';
 })
 export class AddItemDialogComponent {
 
-  public readonly dialogModel: AddItemDialogModel;
+  public dialogModel: AddItemDialogModel;
   public itemModel: Project | Task;
   public itemModelTask: Task;
   // Instance is passed from parent(where this component is invoked as dialog)
@@ -36,7 +37,7 @@ export class AddItemDialogComponent {
     }
   }
 
-  public onAccept() {
+  public onAccept(): FloatButtonComponent {
     if (this.itemModel !== undefined && this.itemModel.title === '') {
       this.rejectDialogSubmission();
       return;

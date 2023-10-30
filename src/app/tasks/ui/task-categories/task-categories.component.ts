@@ -27,8 +27,8 @@ export class TaskCategoriesComponent extends ItemBase<Project> implements AddRem
       super(uiService);
 
       this.taskService.addItem(
-        new Project('01', 'Titulo - Projeto', [
-        new Task(new Date(), 'Titulo - Tarefa', 'Descricao', '01')
+        new Project('01', 'Titulo - Projeto', '', 'Descricao',
+        [new Task(new Date(),'01', 'Titulo - Tarefa', 'Tarefa', 'Descriçao',)
       ]));
 
       taskService.getCurrentProjectSubject().next(this.taskService.getProjects()[0]);
@@ -44,7 +44,7 @@ export class TaskCategoriesComponent extends ItemBase<Project> implements AddRem
           .subscribe(
             response => {
               if (response.dialog.isDialogSubmitted) {
-                this.taskService.addItem(response.item);
+                this.taskService.addItem(response.item,);
                 this.uiService.showSnackbar(SnackbarType.SUCCESS,
                 environment.projectSuccessfullyAdded,
                 SnackbarTime.LONG
