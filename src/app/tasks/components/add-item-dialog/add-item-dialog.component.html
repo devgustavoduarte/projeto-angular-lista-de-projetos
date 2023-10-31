@@ -1,23 +1,25 @@
 <div fxLayout="column" fxLayoutAlign="space-around center">
   <p mat-dialog-title>{{dialogModel.dialogTitle}}</p>
 
-  <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
-    <input matInput placeholder="Titulo do projeto" [(ngModel)]="itemModel.title">
+  <mat-form-field class="full-width" *ngIf="data.type === 'add_project' ">
+    <input matInput placeholder="Titulo" [(ngModel)]="itemModel.title">
   </mat-form-field>
 
-  <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
-    <input matInput placeholder="Titulo da tarefa" [(ngModel)]="itemModel.secondTitle">
-  </mat-form-field>
+  <ng-container *ngFor="let task of itemModel['tasks']">
+    <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
+      <input matInput placeholder="Titulo da tarefa" [(ngModel)]="task.secondTitle">
+    </mat-form-field>
 
-  <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
-    <input matInput placeholder="Descrição da tarefa" [(ngModel)]="itemModel.description">
-  </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
+      <input matInput placeholder="Descrição" [(ngModel)]="task.description">
+    </mat-form-field>
+  </ng-container>
 
   <div fxLayout="row" fxLayoutAlign="space-between center" class="full-width">
-    <button mat-raised-button color="warn" (click)="onDismiss()">Cancelar
+    <button mat-raised-button color="primary" (click)="onAccept()">Salvar
     </button>
 
-    <button mat-raised-button color="primary" (click)="onAccept()">Salvar
+    <button mat-raised-button color="warn" (click)="onDismiss()">Cancelar
     </button>
   </div>
 </div>

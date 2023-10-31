@@ -16,7 +16,8 @@ import { FloatButtonComponent } from '../float-button/float-button.component';
 export class AddItemDialogComponent {
 
   public dialogModel: AddItemDialogModel;
-  public itemModel: Project | Task;
+  public itemModel: Project | Task ;
+  public itemModel2: Project | Task ;
   public itemModelTask: Task;
   // Instance is passed from parent(where this component is invoked as dialog)
   public uiService: UserInterfaceService;
@@ -28,9 +29,25 @@ export class AddItemDialogComponent {
     this.instantiateModel(data);
   }
 
+  public addNewTask(itemModel): void {
+    if(this.itemModel instanceof Project){
+      if(!this.itemModel.tasks){
+        this.itemModel.tasks = [];
+      }
+      const newTask = new Task(new Date(), itemModel.id, itemModel.title, itemModel.secondTitle, itemModel.description);
+      this.itemModel.tasks.push(newTask);
+      console.log(this.itemModel.tasks);
+    }
+  }
+
   private instantiateModel(data) {
     if (data.type === ItemType.AddProject) {
       this.itemModel = new Project();
+      this.itemModel.tasks = [];
+
+      const task = new Task(new Date());
+      this.itemModel.tasks.push(task)
+
     } else if (data.type === ItemType.AddTask) {
       this.itemModel = new Task(new Date());
       this.itemModelTask = this.itemModel;

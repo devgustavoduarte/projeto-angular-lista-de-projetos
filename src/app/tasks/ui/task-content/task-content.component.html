@@ -28,12 +28,13 @@
 
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center" class="full-width">
             <p fxFlex="25"> {{ task.secondTitle }} </p>
-            <!-- <p *ngIf="task === task" fxFlex="25"> {{ task.duplicate }} </p> -->
             <p fxFlex="25"> {{ task.date | date: 'dd/MM/yyyy h:mm a'}} </p>
             <mat-icon [ngClass]="task.date | taskPriorityIcon | async" fxFlex="25">notification_important
             </mat-icon>
-            <mat-icon fxFlex="25" (click)="onDuplicate(task)">content_copy
-            </mat-icon>
+            <button mat-mini-fab color="primary">
+              <mat-icon (click)="onDuplicate(task)">content_copy
+              </mat-icon>
+            </button>
           </div>
 
         </mat-expansion-panel-header>
@@ -41,6 +42,7 @@
         <mat-action-row>
           <button mat-button color="warn" (click)="onRemoveItem(task.id)"><b>Remover</b></button>
           <button mat-button class="font-white" (click)="previousTask()"><b>Anterior</b></button>
+
           <button mat-button class="font-white" (click)="nextTask()"><b>Próximo</b></button>
         </mat-action-row>
       </mat-expansion-panel>
