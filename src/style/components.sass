@@ -1,5 +1,9 @@
 @import "colors"
 
+.float-button2
+  position: fixed
+  right: 5rem
+  bottom: 1rem
 float-button
   position: fixed
   right: 1rem
@@ -19,11 +23,9 @@ float-button
     justify-content: center
 
 .warning-toast
-  background-color: $statusUrgent !important
+  background-color: $warn !important
   @include snackbar-base
 
 .success-toast
-  background-color: $statusLow !important
+  background-color: $bluishGreen !important
   @include snackbar-base
-
-

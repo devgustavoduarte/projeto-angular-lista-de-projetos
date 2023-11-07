@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { Project, Task } from '../../data/task.model';
 import { slideInOutLeft } from '../../animations/slides';
@@ -17,7 +17,9 @@ import { SnackbarTime } from '../../utils/handlers/SnackbarTime';
   templateUrl: './task-categories.component.html',
   styleUrls: ['./task-categories.component.sass']
 })
-export class TaskCategoriesComponent extends ItemBase<Project> implements AddRemoveItem {
+export class TaskCategoriesComponent extends ItemBase<Project> implements AddRemoveItem, OnInit {
+
+  public project: Project;
 
   constructor(
     public taskService: TaskService,
@@ -28,10 +30,12 @@ export class TaskCategoriesComponent extends ItemBase<Project> implements AddRem
 
       this.taskService.addItem(
         new Project('01', 'Titulo - Projeto', 'Descricao',
-        [new Task(new Date(),'01', 'Titulo - Tarefa','Tarefa', 'Descriçao',)
+        [new Task(new Date(), '01', 'Titulo - Tarefa','Tarefa', 'Descriçao')
       ]));
 
       taskService.getCurrentProjectSubject().next(this.taskService.getProjects()[0]);
+  }
+  ngOnInit(): void {
   }
 
   onProjectSelect(project: Project) {

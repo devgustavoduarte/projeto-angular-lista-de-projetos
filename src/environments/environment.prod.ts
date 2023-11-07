@@ -7,12 +7,14 @@ export const environment = {
   taskSuccessfullyAdded: 'Tarefa adicionada com sucesso',
   taskSuccessfullyRemoved: 'Tarefa excluida com sucesso',
   taskSuccessfullyDuplicated: 'Tarefa duplicada com sucesso',
-  noDialogInput: 'O campo não pode estar vazio',
+  noDialogInput: 'Todos os campos devem ser preenchidos',
+  noProjectInput: 'O campo do projeto deve ser preenchido',
+  noTaskInput: 'Os campos da tarefa devem ser preenchidos',
   addProjectTitle: 'Adicionar projeto',
+  addActivity: 'Adicionar atividades',
   addTaskTitle: 'Adicionar tarefa',
   removeProjectTitle: 'Remover projeto',
   removeTaskTitle: 'Remover tarefa',
-  duplicateTaskTitle:'Duplicar tarefa',
   projectSuccessfullyAdded: 'Projeto adicionado com sucesso',
   projectSuccessfullyRemoved: 'Projeto excluido com sucesso'
 

@@ -32,7 +32,7 @@
             <mat-icon [ngClass]="task.date | taskPriorityIcon | async" fxFlex="25">notification_important
             </mat-icon>
             <button mat-mini-fab color="primary">
-              <mat-icon (click)="onDuplicate(task)">content_copy
+              <mat-icon (click)="onDuplicate(task, i)">content_copy
               </mat-icon>
             </button>
           </div>
@@ -40,9 +40,8 @@
         </mat-expansion-panel-header>
         <p>{{ task.description }}</p>
         <mat-action-row>
-          <button mat-button color="warn" (click)="onRemoveItem(task.id)"><b>Remover</b></button>
+          <button mat-button class="button-red" (click)="onRemoveItem(task.id)"><b>Remover</b></button>
           <button mat-button class="font-white" (click)="previousTask()"><b>Anterior</b></button>
-
           <button mat-button class="font-white" (click)="nextTask()"><b>Próximo</b></button>
         </mat-action-row>
       </mat-expansion-panel>
@@ -53,3 +52,8 @@
 
 <float-button *ngIf="(taskService.getCurrentProjectSubject() | async) != null" (isTaskAdded)="onAddItem()">
 </float-button>
+
+<!-- <sort-button *ngFor="let task of (taskService.getCurrentProjectSubject() | async)?.tasks;" mat-fab color="primary"
+  class="float-button2" (isTasksSort)="onSortTask(task)">
+  <mat-icon>sort</mat-icon>
+</sort-button> -->

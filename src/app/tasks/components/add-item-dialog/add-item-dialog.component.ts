@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AddItemDialogModel } from './add-item-dialog.model';
 import { Project, Task } from '../../data/task.model';
@@ -13,11 +13,10 @@ import { FloatButtonComponent } from '../float-button/float-button.component';
   selector: 'app-add-item-dialog',
   templateUrl: './add-item-dialog.component.html'
 })
-export class AddItemDialogComponent {
+export class AddItemDialogComponent implements OnInit, OnChanges {
 
   public dialogModel: AddItemDialogModel;
   public itemModel: Project | Task ;
-  public itemModel2: Project | Task ;
   public itemModelTask: Task;
   // Instance is passed from parent(where this component is invoked as dialog)
   public uiService: UserInterfaceService;
@@ -28,15 +27,63 @@ export class AddItemDialogComponent {
     this.dialogModel = data.dialog;
     this.instantiateModel(data);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes)
+    var aa= ''
+  }
 
-  public addNewTask(itemModel): void {
+  print(obj: any) {
+    return JSON.stringify(obj);
+  }
+
+  ngOnInit(): void {
+    if(this.itemModel instanceof Project){
+      this.dialogRef.updateSize('1600px', '');
+    }
+  }
+
+  public addAnotherTask(indexS: any): void {
     if(this.itemModel instanceof Project){
       if(!this.itemModel.tasks){
         this.itemModel.tasks = [];
       }
-      const newTask = new Task(new Date(), itemModel.id, itemModel.title, itemModel.secondTitle, itemModel.description);
+      let index = Number(indexS)
+
+      const newTask = new Task(new Date(),);
+      this.itemModel.tasks.splice(index +1, 0, newTask,) ;
+
+    }
+  }
+
+  public addNewTask(): void {
+    if(this.itemModel instanceof Project){
+      if(!this.itemModel.tasks){
+        this.itemModel.tasks = [];
+      }
+      const newTask = new Task(new Date(),);
       this.itemModel.tasks.push(newTask);
-      console.log(this.itemModel.tasks);
+    }
+  }
+
+  public emptyTasks(): void {
+    if(this.itemModel instanceof Project) {
+      this.itemModel.tasks.splice(0, this.itemModel.tasks.length)
+    }
+  }
+
+  public deleteTask(itemID: any): void {
+      if(this.itemModel instanceof Project) {
+        let newId = Number(itemID);
+          if(this.itemModel.tasks.length >= 1){
+            this.itemModel.tasks.splice(newId, 1);
+          }
+      }
+  }
+
+  public sortTasks(): void {
+    if(this.itemModel instanceof Project) {
+      console.log(this.itemModel.tasks)
+      this.itemModel.tasks.sort((a,b) => a.secondTitle.localeCompare(b.secondTitle))
     }
   }
 
@@ -55,19 +102,30 @@ export class AddItemDialogComponent {
   }
 
   public onAccept(): FloatButtonComponent {
-    if (this.itemModel !== undefined && this.itemModel.title === '') {
-      this.rejectDialogSubmission();
+    if (this.itemModelTask !== undefined  && (this.itemModelTask.secondTitle === '' || this.itemModelTask.description === '')) {
+      this.uiService.showSnackbar(SnackbarType.WARNING, environment.noTaskInput, SnackbarTime.LONG);
       return;
+    }
+    if(this.itemModel instanceof Project) {
+      for(let task of this.itemModel.tasks){
+        if(this.itemModel.title === '' && (task.secondTitle === '' || task.description === '')){
+          this.uiService.showSnackbar(SnackbarType.WARNING, environment.noDialogInput, SnackbarTime.LONG);
+          return;
+        }if(this.itemModel.title !== '' && (task.secondTitle === '' || task.description === '')){
+          this.uiService.showSnackbar(SnackbarType.WARNING, environment.noTaskInput, SnackbarTime.LONG);
+          return
+        }
+      }
+      if(this.itemModel.tasks.length < 1 && this.itemModel.title === ''){
+        this.uiService.showSnackbar(SnackbarType.WARNING, environment.noProjectInput, SnackbarTime.LONG);
+        return
+      }
     }
     this.closeDialog(true);
   }
 
   public onDismiss(): void {
     this.closeDialog(false);
-  }
-
-  private rejectDialogSubmission(): void {
-    this.uiService.showSnackbar(SnackbarType.WARNING, environment.noDialogInput, SnackbarTime.LONG);
   }
 
   private closeDialog(isSubmitted: boolean): void {

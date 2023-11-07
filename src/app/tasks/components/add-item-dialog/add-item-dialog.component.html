@@ -1,25 +1,69 @@
-<div fxLayout="column" fxLayoutAlign="space-around center">
-  <p mat-dialog-title>{{dialogModel.dialogTitle}}</p>
+<h1 mat-dialog-title fxLayoutAlign="center">{{dialogModel.dialogTitle}}</h1>
 
-  <mat-form-field class="full-width" *ngIf="data.type === 'add_project' ">
-    <input matInput placeholder="Titulo" [(ngModel)]="itemModel.title">
-  </mat-form-field>
-
-  <ng-container *ngFor="let task of itemModel['tasks']">
-    <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
-      <input matInput placeholder="Titulo da tarefa" [(ngModel)]="task.secondTitle">
+<div>
+  <mat-dialog-content class="mat-typography" style="margin-top: 35px;">
+    <mat-form-field class="full-width" *ngIf="data.type === 'add_project'">
+      <input matInput placeholder="Titulo" [(ngModel)]="itemModel.title">
     </mat-form-field>
+  </mat-dialog-content>
 
-    <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
-      <input matInput placeholder="Descrição" [(ngModel)]="task.description">
-    </mat-form-field>
-  </ng-container>
+  <h2 mat-dialog-title fxLayoutAlign="center" *ngIf="data.type === 'add_project'">Adicionar
+    tarefas</h2>
+</div>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="full-width">
-    <button mat-raised-button color="primary" (click)="onAccept()">Salvar
-    </button>
+<ng-container *ngIf="itemModel">
+  <div class="max-content" *ngIf="itemModel['tasks'] && itemModel['tasks'].length > 0">
+    <mat-dialog-content fxLayout="row" fxLayout.lt-md=" column" fxLayoutAlign="space-around center"
+      class="mat-typography" *ngFor="let task of itemModel['tasks']; let i = index">
+      <ng-container *ngIf="data.type === 'add_project' || data.type === 'add_task'">
+        <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
+          <input matInput placeholder="Titulo da tarefa" [(ngModel)]="task.secondTitle">
+        </mat-form-field>
+        <mat-form-field class="full-width" *ngIf="data.type === 'add_project' || data.type === 'add_task'">
+          <input matInput placeholder="Descrição" [(ngModel)]="task.description">
+        </mat-form-field>
+      </ng-container>
+      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px" style="padding-bottom: 25px;">
+        <button mat-mini-fab color="primary" (click)="deleteTask(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="addAnotherTask(i)">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </mat-dialog-content>
+  </div>
 
-    <button mat-raised-button color="warn" (click)="onDismiss()">Cancelar
+  <div fxLayoutAlign="end"
+    *ngIf="data.type === 'add_project' && !itemModel['tasks'] || (itemModel['tasks'] && itemModel['tasks'].length === 0)">
+    <button mat-mini-fab color="primary" (click)="addNewTask()">
+      <mat-icon>add_circle</mat-icon>
     </button>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="data.type === 'add_task'">
+  <mat-form-field class="full-width2" *ngIf="data.type === 'add_task'">
+    <input matInput placeholder="Titulo da tarefa" [(ngModel)]="itemModelTask.secondTitle">
+  </mat-form-field>
+  <mat-form-field class="full-width2" *ngIf="data.type === 'add_task'">
+    <input matInput placeholder="Descrição" [(ngModel)]="itemModelTask.description">
+  </mat-form-field>
+</ng-container>
+
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="onAccept()">Salvar
+  </button>
+  <button mat-raised-button color="warn" (click)="onDismiss()">Cancelar
+  </button>
+  <button [disabled]="itemModel['tasks'] && itemModel['tasks'].length === 0" *ngIf="data.type === 'add_project' "
+    mat-raised-button color="warn" (click)="emptyTasks()">Remover
+    todas
+    tarefas
+  </button>
+  <button [disabled]="itemModel['tasks'] && itemModel['tasks'].length === 0" *ngIf="data.type === 'add_project' "
+    mat-raised-button color="accent" (click)="sortTasks()">Ordenar
+    todas
+    tarefas
+  </button>
+</mat-dialog-actions>

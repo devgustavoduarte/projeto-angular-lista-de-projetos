@@ -30,12 +30,6 @@ export class TaskService {
     }
   }
 
-  public duplicateItem(projectId: string, taskId?: string, task?: Task): void {
-    if(projectId) {
-      this.project.find(value => value.id === taskId).tasks.push(task)
-    }
-  }
-
   public getProjects(): Project[] {
     return this.project;
   }

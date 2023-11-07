@@ -74,7 +74,7 @@ export class TaskContentComponent extends ItemBase<Task> implements AddRemoveIte
       });
   }
 
-  async onDuplicate(task: Task): Promise<void> {
+  async onDuplicate(task: Task, index): Promise<void> {
     let newTaf = new Task(new Date());
 
     newTaf.description = task.description;
@@ -82,26 +82,16 @@ export class TaskContentComponent extends ItemBase<Task> implements AddRemoveIte
 
     this.taskService.getCurrentProjectSubject().subscribe(e => {
       if (newTaf != null) {
-        e.tasks.push(newTaf);
+        e.tasks.splice(index + 1, 0, newTaf);
       }
+      this.uiService.showSnackbar(SnackbarType.SUCCESS,
+        environment.taskSuccessfullyDuplicated,
+        SnackbarTime.LONG
+      );
       newTaf = null;
     })
   }
+  // onSortTask(task: Task): void{
+  //   return
+  // }
 }
-
-
-  //const taskServ = this.taskService.getCurrentProjectSubject();
-  // newTaf.secondTitle = task.secondTitle;
-
-    /*const auxTwo = this.taskService.getCurrentProjectSubject();
-    combineLatest([ auxTwo])
-      .pipe(take(1))
-      .subscribe(value => {
-        this.taskService.(valueaddItem[0], newTaf);
-        this.uiService.showSnackbar(SnackbarType.SUCCESS, environment.taskSuccessfullyDuplicated,SnackbarTime.SHORT);
-    });*/
-
-  //this.taskService.addItem(project, newTaf);
-
-  // taskServ.subscribe(project => (project.tasks.push(newTaf)))
-

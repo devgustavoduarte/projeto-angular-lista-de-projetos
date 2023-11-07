@@ -8,7 +8,7 @@ $custom-typography: mat.define-typography-config($font-family: '"text", sans-ser
 @include mat.core($custom-typography);
 
 /*Colors*/
-$task-primary: mat.define-palette($app-accent, 800);
+$task-primary: mat.define-palette($app-accent, 700);
 $task-accent: mat.define-palette($app-yellow, 600);
 $task-warn: mat.define-palette(mat.$red-palette, 600);
 $task-theme: mat.define-dark-theme($task-primary, $task-accent, $task-warn);

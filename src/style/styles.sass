@@ -23,22 +23,39 @@ body
   padding: 0.3rem
 
 .hover
-  background: $midnightBlue
+  background: $bluishGreen
   @include allBorderRadiusStandard
 
 .select
-  background: $darkBlue
+  background: $lightGray
   @include allBorderRadiusStandard
 
 .full-width
-  width: 100%
+  width: 93%
+
+.full-width2
+  width: 95%
 
 .hand-cursor
   cursor: pointer
 
-
 .font-yellow
-  color: $yellow
+  color: $dimWhite
 
 .font-white
   color: $dimWhite
+  background-color: $accent
+
+.button-red
+  color: $dimWhite
+  background-color: $warn
+
+.max-content
+  padding: 11px
+  max-block-size: 500px
+  overflow-x: hidden
+  overflow-y: scroll
+  overflow-wrap: break-word
+
+.max-content::-webkit-scrollbar
+  display: none

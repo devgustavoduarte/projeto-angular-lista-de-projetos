@@ -24,6 +24,7 @@ import { TaskContentComponent } from './tasks/ui/task-content/task-content.compo
 import { HoverDirective } from './tasks/directives/hover.directive';
 import { DateLocalePipe } from './tasks/pipes/date-locale.pipe';
 import { FloatButtonComponent } from './tasks/components/float-button/float-button.component';
+import { SortButtonComponent } from './tasks/components/float-button/sort-button.component';
 import { ShortTextPipe } from './tasks/pipes/short-text.pipe';
 import { TimestampPipe } from './tasks/pipes/timestamp.pipe';
 import { AddItemDialogComponent } from './tasks/components/add-item-dialog/add-item-dialog.component';
@@ -44,7 +45,8 @@ import { AppRoutingModule } from './app-routing-module';
     ShortTextPipe,
     TimestampPipe,
     AddItemDialogComponent,
-    TaskPriorityIconPipe
+    TaskPriorityIconPipe,
+    SortButtonComponent
   ],
   imports: [
     BrowserModule,
