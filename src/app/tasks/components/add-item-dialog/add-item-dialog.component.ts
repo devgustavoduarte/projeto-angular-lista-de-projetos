@@ -1,4 +1,4 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AddItemDialogModel } from './add-item-dialog.model';
 import { Project, Task } from '../../data/task.model';
@@ -9,11 +9,12 @@ import { environment } from '../../../../environments/environment.prod';
 import { SnackbarTime } from '../../utils/handlers/SnackbarTime';
 import { FloatButtonComponent } from '../float-button/float-button.component';
 
+
 @Component({
   selector: 'app-add-item-dialog',
   templateUrl: './add-item-dialog.component.html'
 })
-export class AddItemDialogComponent implements OnInit, OnChanges {
+export class AddItemDialogComponent implements OnInit {
 
   public dialogModel: AddItemDialogModel;
   public itemModel: Project | Task ;
@@ -26,10 +27,6 @@ export class AddItemDialogComponent implements OnInit, OnChanges {
     @Inject(MAT_DIALOG_DATA) public data) {
     this.dialogModel = data.dialog;
     this.instantiateModel(data);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes)
-    var aa= ''
   }
 
   print(obj: any) {

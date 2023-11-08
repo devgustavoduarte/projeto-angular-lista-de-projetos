@@ -53,7 +53,8 @@
 <float-button *ngIf="(taskService.getCurrentProjectSubject() | async) != null" (isTaskAdded)="onAddItem()">
 </float-button>
 
-<!-- <sort-button *ngFor="let task of (taskService.getCurrentProjectSubject() | async)?.tasks;" mat-fab color="primary"
-  class="float-button2" (isTasksSort)="onSortTask(task)">
-  <mat-icon>sort</mat-icon>
-</sort-button> -->
+<ng-container *ngFor="let task of (taskService.getCurrentProjectSubject() | async)?.tasks;">
+  <sort-button mat-fab color="primary" class="float-button2" (click)="printPdf(task)">
+    <mat-icon>print</mat-icon>
+  </sort-button>
+</ng-container>

@@ -13,8 +13,5 @@ export class SortButtonComponent {
   public itemModel: Project | Task;
   public itemModelTask: Task;
 
-  onSortTask(): void {
-    this.isTasksSort.emit(null);
-    console.log(this.itemModelTask)
-  }
+
 }
