@@ -10,7 +10,6 @@ import { SnackbarTime } from "../../utils/handlers/SnackbarTime";
 import { environment } from "../../../../environments/environment.prod";
 import { ItemBase } from "../../core/base/ItemBase";
 import { take } from "rxjs/operators";
-import { PrintPdfComponent } from "../print-pdf/print-pdf.component";
 import jsPDF from "jspdf";
 
 @Component({
