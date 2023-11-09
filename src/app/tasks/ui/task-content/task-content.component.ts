@@ -1,7 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { TaskService } from "../../services/task.service";
 import { Project, Task } from "../../data/task.model";
-import { AddRemoveItem } from "../../core/AddRemoveItem";
 import { UserInterfaceService } from "../../services/user-interface.service";
 import { ItemType } from "../../core/base/ItemType";
 import { combineLatest } from "rxjs";
@@ -11,76 +10,102 @@ import { environment } from "../../../../environments/environment.prod";
 import { ItemBase } from "../../core/base/ItemBase";
 import { take } from "rxjs/operators";
 import jsPDF from "jspdf";
+import { MatCardModule } from "@angular/material/card";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
 
 @Component({
   selector: "app-task-content",
   templateUrl: "./task-content.component.html",
   styleUrls: ["./task-content.component.sass"],
 })
-export class TaskContentComponent extends ItemBase<Task> {
+export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   currentTaskIndex;
 
+  dataSource;
+  displayedColumns = [];
+
+  @Output()
   public itemModel: Project | Task;
   public itemModelTask: Task;
 
+  public showMyContainer: boolean = false;
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  columnNames = [
+    {
+      id: "id",
+      value: "ID",
+    },
+    {
+      id: "title",
+      value: "Tarefa",
+    },
+    {
+      id: "description",
+      value: "Descrição",
+    },
+  ];
+
   constructor(
     public readonly taskService: TaskService,
-    public uiService: UserInterfaceService
+    public uiService: UserInterfaceService,
+    public readonly cardModule: MatCardModule
   ) {
     super(uiService);
   }
+  ngOnInit(): void {
+    this.displayedColumns = this.columnNames.map((x) => x.id);
+    this.createTable();
+  }
 
-  printPdf(task: Task): void {
-    // let doc = new jsPDF()
+  createTable() {
+    let task = new Task(new Date(), "1", "Novo titulo", "", "Descrição");
 
-    // let elementHtml = document.querySelector('#content') as HTMLElement
+    let tableArr: Element[] = [
+      {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+      },
+      {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+      },
+      {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+      },
+    ];
+    this.dataSource = new MatTableDataSource(tableArr);
+    this.dataSource.sort = this.sort;
+  }
 
-    // doc.html(elementHtml, {
-    //   callback: (doc) => {
-    //     doc.save('test.pdf')
-    //   },
-    //   x: 15,
-    //   y: 15,
-    //   width: 190,
-    //   windowWidth: 650
-    // })
+  printPdf(): void {
+    let doc = new jsPDF();
 
-    let newTaf = new Task(new Date());
+    let elementHtml = document.querySelector("#content") as HTMLElement;
+    let elementDiv = document.querySelector("#hiddenDiv") as HTMLDivElement;
 
-    newTaf.description = task.description;
-    newTaf.secondTitle = task.secondTitle;
+    // elementDiv.hidden = true;
 
-    this.taskService.getCurrentProjectSubject().subscribe((e) => {
-      if (newTaf != null) {
-        let doc = new jsPDF();
-        doc.setFont("Courier");
-        doc.setFontSize(20);
-        doc.text("Ficha do produto", 65, 15);
+    const imgData = new Image();
+    imgData.src = "../../../../assets/logo.png";
 
-        doc.setFillColor(50, 50, 50);
-        doc.rect(2, 20, 60, 8, "FD");
-        doc.rect(2, 28, 60, 8, "FD");
-        doc.rect(2, 36, 60, 8, "FD");
-        doc.rect(40, 20, 160, 8, "FD");
-        doc.rect(40, 28, 160, 8, "FD");
-        doc.rect(40, 36, 160, 8, "FD");
-
-        doc.setFontSize(12);
-        doc.setTextColor(255, 255, 255);
-        doc.text("ID", 3, 25);
-        doc.text("Nome da tarefa", 3, 33);
-        doc.text("Descrição", 3, 41);
-
-        doc.setTextColor(255, 255, 255);
-        if (this.itemModel && this.itemModelTask) {
-          doc.text(this.itemModel.title, 42, 25);
-          doc.text(this.itemModelTask.secondTitle, 42, 33);
-          doc.text(this.itemModelTask.description, 42, 41);
-        }
+    doc.html(elementHtml, {
+      callback: (doc) => {
+        // doc.save("test.pdf");
+        // doc.addImage(imgData, "png", 140, 130, 150, 150);
         doc.output("dataurlnewwindow");
-      }
+      },
+      x: 13,
+      y: 15,
+      width: 190,
+      windowWidth: 650,
     });
-    newTaf = null;
   }
 
   setTaskIndex(index: number) {
@@ -155,7 +180,10 @@ export class TaskContentComponent extends ItemBase<Task> {
       newTaf = null;
     });
   }
-  // onSortTask(task: Task): void{
-  //   return
-  // }
+}
+
+export interface Element {
+  id: any;
+  title: string;
+  description: string;
 }

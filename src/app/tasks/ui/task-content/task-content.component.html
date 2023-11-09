@@ -46,6 +46,41 @@
         </mat-action-row>
       </mat-expansion-panel>
       <br>
+      <div id="hiddenDiv">
+        <mat-card class="full-width3" fxLayoutAlign=" space-between center" fxLayout="column" id="content">
+
+          <div style="border-radius: 5px;" id="logo" fxLayoutAlign="center">
+            <img src="../../../../assets/logo.png">
+          </div>
+          <br>
+
+          <ng-container fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center" class="full-width"
+            *ngFor="let project of taskService.getProjects(); index as i">
+            <mat-card-title style="font-family: 'pdf-title, sans-serif'; font-weight: bold; font-size: 32px;"
+              fxLayoutAlign="center"> {{
+              project.title }}
+            </mat-card-title>
+          </ng-container>
+
+          <br>
+
+          <mat-card-content>
+
+            <mat-table #table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="{{column.id}}" *ngFor="let column of columnNames">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{column.value}}</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element[column.id]}}</mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+          </mat-card-content>
+
+        </mat-card>
+      </div>
     </div>
   </mat-accordion>
 </ng-template>
@@ -54,7 +89,10 @@
 </float-button>
 
 <ng-container *ngFor="let task of (taskService.getCurrentProjectSubject() | async)?.tasks;">
-  <sort-button mat-fab color="primary" class="float-button2" (click)="printPdf(task)">
+  <sort-button mat-fab color="primary" class="float-button2" (click)="printPdf()">
     <mat-icon>print</mat-icon>
   </sort-button>
+  <!-- <hide-button mat-fab color="primary" class="float-button3" (click)="hideDiv()">
+    <mat-icon>hide_source</mat-icon>
+  </hide-button> -->
 </ng-container>

@@ -31,7 +31,13 @@ import { AddItemDialogComponent } from "./tasks/components/add-item-dialog/add-i
 import { TaskPriorityIconPipe } from "./tasks/pipes/task-priority-icon.pipe";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing-module";
-import { PrintPdfComponent } from "./tasks/ui/print-pdf/print-pdf.component";
+import { HideButtonComponent } from "./tasks/components/float-button/hide-button.component";
+
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { SimpleTableComponent } from "./tasks/ui/simple-table/simple-table.component";
+import { GeneratePdfComponent } from "./tasks/ui/generate-pdf/generate-pdf.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +53,9 @@ import { PrintPdfComponent } from "./tasks/ui/print-pdf/print-pdf.component";
     AddItemDialogComponent,
     TaskPriorityIconPipe,
     SortButtonComponent,
-    PrintPdfComponent,
+    SimpleTableComponent,
+    GeneratePdfComponent,
+    HideButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +79,9 @@ import { PrintPdfComponent } from "./tasks/ui/print-pdf/print-pdf.component";
     MatDatepickerModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
