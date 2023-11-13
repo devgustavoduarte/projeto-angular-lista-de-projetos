@@ -14,6 +14,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import autoTable from "jspdf-autotable";
+import Roboto from "../../../../assets/fonts/Roboto-Regular-normal";
+import RobotoBold from "../../../../assets/fonts/Roboto-Bold-bold";
 
 @Component({
   selector: "app-task-content",
@@ -95,11 +97,18 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
     let doc = new jsPDF();
 
     const imgData = new Image();
-    imgData.src = "../../../../assets/logo.png";
+    imgData.src = "../../../../assets/fabricads-logo/PNG/FabricaDS_120px.png";
 
-    doc.addImage(imgData, "png", 15, 5, 60, 13);
+    doc.addImage(imgData, "png", 15, 8, 55, 13);
     let taskTitle = this.taskService.getCurrentProjectSubject()["_value"].title;
+
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(19);
+
     doc.text(taskTitle, 102, 35, { align: "center" });
+
+    doc.rect(20, 24, 170, 0, "FD");
+
     autoTable(doc, {
       head: this.headRows(),
       headStyles: {
@@ -111,8 +120,11 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
         font: "helvetica",
         fontSize: 12,
         fontStyle: "normal",
+        lineWidth: 0.3,
+        lineColor: 0,
         halign: "center",
       },
+      theme: "striped",
     });
     doc.output("dataurlnewwindow");
   }
