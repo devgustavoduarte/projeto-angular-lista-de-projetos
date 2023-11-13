@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { TaskService } from "../../services/task.service";
 import { Project, Task } from "../../data/task.model";
 import { UserInterfaceService } from "../../services/user-interface.service";
@@ -13,6 +13,7 @@ import jsPDF from "jspdf";
 import { MatCardModule } from "@angular/material/card";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: "app-task-content",
@@ -22,14 +23,12 @@ import { MatSort } from "@angular/material/sort";
 export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   currentTaskIndex;
 
-  dataSource;
-  displayedColumns = [];
+  // dataSource;
+  // displayedColumns = [];
 
-  @Output()
+  @Input()
   public itemModel: Project | Task;
   public itemModelTask: Task;
-
-  public showMyContainer: boolean = false;
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -56,56 +55,54 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
     super(uiService);
   }
   ngOnInit(): void {
-    this.displayedColumns = this.columnNames.map((x) => x.id);
-    this.createTable();
+    // this.displayedColumns = this.columnNames.map((x) => x.id);
+    // this.createTable();
   }
 
-  createTable() {
-    let task = new Task(new Date(), "1", "Novo titulo", "", "Descrição");
+  // createTable() {
+  //   this.taskService.getCurrentProjectSubject().subscribe((e) => {
+  //     const tableArr = e.tasks
+  //       ? e.tasks.map((e) => {
+  //           return {
+  //             id: e.id,
+  //             title: e.secondTitle,
+  //             description: e.description,
+  //           };
+  //         })
+  //       : [];
 
-    let tableArr: Element[] = [
-      {
-        id: task.id,
-        title: task.title,
-        description: task.description,
-      },
-      {
-        id: task.id,
-        title: task.title,
-        description: task.description,
-      },
-      {
-        id: task.id,
-        title: task.title,
-        description: task.description,
-      },
-    ];
-    this.dataSource = new MatTableDataSource(tableArr);
-    this.dataSource.sort = this.sort;
-  }
+  //     this.dataSource = new MatTableDataSource(tableArr);
+  //     this.dataSource.sort = this.sort;
+  //   });
+  // }
 
-  printPdf(): void {
+  printPdf(task: Task, title: Project): void {
     let doc = new jsPDF();
-
-    let elementHtml = document.querySelector("#content") as HTMLElement;
-    let elementDiv = document.querySelector("#hiddenDiv") as HTMLDivElement;
-
-    // elementDiv.hidden = true;
 
     const imgData = new Image();
     imgData.src = "../../../../assets/logo.png";
 
-    doc.html(elementHtml, {
-      callback: (doc) => {
-        // doc.save("test.pdf");
-        // doc.addImage(imgData, "png", 140, 130, 150, 150);
-        doc.output("dataurlnewwindow");
-      },
-      x: 13,
-      y: 15,
-      width: 190,
-      windowWidth: 650,
-    });
+    const newTask = task;
+    const newProject = title;
+
+    for (let item of [newTask]) {
+      doc.addImage(imgData, "png", 15, 5, 60, 13);
+      doc.text(newProject.title, 85, 35);
+      autoTable(doc, {
+        head: [["ID", "Nome", "Descrição"]],
+        headStyles: {
+          fontStyle: "bolditalic",
+        },
+        body: [[item.id, item.secondTitle, item.description]],
+        margin: { top: 45 },
+        styles: {
+          font: "helvetica",
+          fontSize: 12,
+          fontStyle: "normal",
+        },
+      });
+      doc.output("dataurlnewwindow");
+    }
   }
 
   setTaskIndex(index: number) {
@@ -120,7 +117,6 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
     this.currentTaskIndex--;
   }
 
-  // first observable holds task and dialog data, second dialog holds project data
   onAddItem(): void {
     const auxOne = this.dialogResponse(
       environment.addTaskTitle,
@@ -132,6 +128,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
       .subscribe((value) => {
         if (value[0].dialog.isDialogSubmitted) {
           this.taskService.addItem(value[1], value[0].item);
+
           this.uiService.showSnackbar(
             SnackbarType.SUCCESS,
             environment.taskSuccessfullyAdded,
@@ -183,7 +180,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
 }
 
 export interface Element {
-  id: any;
+  id: string | number;
   title: string;
   description: string;
 }

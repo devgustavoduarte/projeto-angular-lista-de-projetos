@@ -36,8 +36,6 @@ import { HideButtonComponent } from "./tasks/components/float-button/hide-button
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
-import { SimpleTableComponent } from "./tasks/ui/simple-table/simple-table.component";
-import { GeneratePdfComponent } from "./tasks/ui/generate-pdf/generate-pdf.component";
 
 @NgModule({
   declarations: [
@@ -53,8 +51,6 @@ import { GeneratePdfComponent } from "./tasks/ui/generate-pdf/generate-pdf.compo
     AddItemDialogComponent,
     TaskPriorityIconPipe,
     SortButtonComponent,
-    SimpleTableComponent,
-    GeneratePdfComponent,
     HideButtonComponent,
   ],
   imports: [
