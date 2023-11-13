@@ -76,33 +76,45 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   //   });
   // }
 
-  printPdf(task: Task, title: Project): void {
+  headRows() {
+    return [{ id: "ID", name: "Nome", description: "Descrição" }];
+  }
+
+  bodyRows() {
+    let body = [];
+    let taskList = this.taskService.getCurrentProjectSubject()["_value"].tasks;
+
+    taskList.forEach((e) => {
+      let taskArr = [e.id, e.secondTitle, e.description];
+      body.push(taskArr);
+    });
+    return body;
+  }
+
+  printPdf(): void {
     let doc = new jsPDF();
 
     const imgData = new Image();
     imgData.src = "../../../../assets/logo.png";
 
-    const newTask = task;
-    const newProject = title;
-
-    for (let item of [newTask]) {
-      doc.addImage(imgData, "png", 15, 5, 60, 13);
-      doc.text(newProject.title, 85, 35);
-      autoTable(doc, {
-        head: [["ID", "Nome", "Descrição"]],
-        headStyles: {
-          fontStyle: "bolditalic",
-        },
-        body: [[item.id, item.secondTitle, item.description]],
-        margin: { top: 45 },
-        styles: {
-          font: "helvetica",
-          fontSize: 12,
-          fontStyle: "normal",
-        },
-      });
-      doc.output("dataurlnewwindow");
-    }
+    doc.addImage(imgData, "png", 15, 5, 60, 13);
+    let taskTitle = this.taskService.getCurrentProjectSubject()["_value"].title;
+    doc.text(taskTitle, 102, 35, { align: "center" });
+    autoTable(doc, {
+      head: this.headRows(),
+      headStyles: {
+        fontStyle: "bold",
+      },
+      body: this.bodyRows(),
+      margin: { top: 45 },
+      styles: {
+        font: "helvetica",
+        fontSize: 12,
+        fontStyle: "normal",
+        halign: "center",
+      },
+    });
+    doc.output("dataurlnewwindow");
   }
 
   setTaskIndex(index: number) {
@@ -128,7 +140,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
       .subscribe((value) => {
         if (value[0].dialog.isDialogSubmitted) {
           this.taskService.addItem(value[1], value[0].item);
-
+          this.bodyRows();
           this.uiService.showSnackbar(
             SnackbarType.SUCCESS,
             environment.taskSuccessfullyAdded,

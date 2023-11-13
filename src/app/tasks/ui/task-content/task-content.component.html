@@ -48,7 +48,7 @@
       <br>
 
       <ng-container *ngFor="let title of taskService.getProjects()">
-        <print-button mat-fab color="primary" class="float-button2" (click)="printPdf(task, title)">
+        <print-button mat-fab color="primary" class="float-button2" (click)="printPdf()">
         </print-button>
       </ng-container>
     </div>
