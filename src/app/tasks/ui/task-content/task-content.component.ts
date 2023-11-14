@@ -94,20 +94,34 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   }
 
   printPdf(): void {
-    let doc = new jsPDF();
+    let doc = new jsPDF("p", "mm", "a4");
+
+    let numberOfPages = doc.getNumberOfPages();
 
     const imgData = new Image();
     imgData.src = "../../../../assets/fabricads-logo/PNG/FabricaDS_120px.png";
 
     doc.addImage(imgData, "png", 15, 8, 55, 13);
+    doc.rect(17, 24, 175, 0, "FD");
+
     let taskTitle = this.taskService.getCurrentProjectSubject()["_value"].title;
+    let tasks = this.taskService.getCurrentProjectSubject()["_value"].tasks[0];
+    console.log(tasks.date);
 
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(19);
 
-    doc.text(taskTitle, 102, 35, { align: "center" });
+    doc.text(taskTitle, 48, 35, { align: "center" });
 
-    doc.rect(20, 24, 170, 0, "FD");
+    doc.setFontSize(12);
+
+    doc.text(tasks.date.toLocaleDateString(), 174, 42, { align: "center" });
+
+    doc.rect(156, 35, 35, 10, "S");
+
+    doc.setFontSize(17);
+    doc.text("TABELA DE TAREFAS", 105, 60, { align: "center" });
+    doc.rect(17, 65, 175, 0, "FD");
 
     autoTable(doc, {
       head: this.headRows(),
@@ -115,7 +129,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
         fontStyle: "bold",
       },
       body: this.bodyRows(),
-      margin: { top: 45 },
+      startY: 70,
       styles: {
         font: "helvetica",
         fontSize: 12,
@@ -126,6 +140,20 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
       },
       theme: "striped",
     });
+
+    for (let i = 1; i <= numberOfPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(12);
+      doc.text(
+        "Page " + String(i) + " of " + String(numberOfPages),
+        210 - 15,
+        297 - 10,
+        { align: "right" }
+      );
+    }
+
+    // doc.addPage("government-letter", "landscape");
+
     doc.output("dataurlnewwindow");
   }
 
