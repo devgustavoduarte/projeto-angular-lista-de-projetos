@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { TaskService } from "../../services/task.service";
 import { Project, Task } from "../../data/task.model";
 import { UserInterfaceService } from "../../services/user-interface.service";
@@ -11,11 +11,7 @@ import { ItemBase } from "../../core/base/ItemBase";
 import { take } from "rxjs/operators";
 import jsPDF from "jspdf";
 import { MatCardModule } from "@angular/material/card";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatSort } from "@angular/material/sort";
 import autoTable from "jspdf-autotable";
-import Roboto from "../../../../assets/fonts/Roboto-Regular-normal";
-import RobotoBold from "../../../../assets/fonts/Roboto-Bold-bold";
 
 @Component({
   selector: "app-task-content",
@@ -25,29 +21,9 @@ import RobotoBold from "../../../../assets/fonts/Roboto-Bold-bold";
 export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   currentTaskIndex;
 
-  // dataSource;
-  // displayedColumns = [];
-
   @Input()
   public itemModel: Project | Task;
   public itemModelTask: Task;
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  columnNames = [
-    {
-      id: "id",
-      value: "ID",
-    },
-    {
-      id: "title",
-      value: "Tarefa",
-    },
-    {
-      id: "description",
-      value: "Descrição",
-    },
-  ];
 
   constructor(
     public readonly taskService: TaskService,
@@ -56,27 +32,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   ) {
     super(uiService);
   }
-  ngOnInit(): void {
-    // this.displayedColumns = this.columnNames.map((x) => x.id);
-    // this.createTable();
-  }
-
-  // createTable() {
-  //   this.taskService.getCurrentProjectSubject().subscribe((e) => {
-  //     const tableArr = e.tasks
-  //       ? e.tasks.map((e) => {
-  //           return {
-  //             id: e.id,
-  //             title: e.secondTitle,
-  //             description: e.description,
-  //           };
-  //         })
-  //       : [];
-
-  //     this.dataSource = new MatTableDataSource(tableArr);
-  //     this.dataSource.sort = this.sort;
-  //   });
-  // }
+  ngOnInit(): void {}
 
   headRows() {
     return [{ id: "ID", name: "Nome", description: "Descrição" }];
@@ -106,7 +62,6 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
 
     let taskTitle = this.taskService.getCurrentProjectSubject()["_value"].title;
     let tasks = this.taskService.getCurrentProjectSubject()["_value"].tasks[0];
-    console.log(tasks.date);
 
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(19);
@@ -151,8 +106,6 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
         { align: "right" }
       );
     }
-
-    // doc.addPage("government-letter", "landscape");
 
     doc.output("dataurlnewwindow");
   }
@@ -229,10 +182,4 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
       newTaf = null;
     });
   }
-}
-
-export interface Element {
-  id: string | number;
-  title: string;
-  description: string;
 }

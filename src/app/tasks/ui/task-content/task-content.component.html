@@ -40,6 +40,8 @@
         </mat-expansion-panel-header>
         <p>{{ task.description }}</p>
         <mat-action-row>
+
+
           <button mat-button class="button-red" (click)="onRemoveItem(task.id)"><b>Remover</b></button>
           <button mat-button class="font-white" (click)="previousTask()"><b>Anterior</b></button>
           <button mat-button class="font-white" (click)="nextTask()"><b>Próximo</b></button>
@@ -54,41 +56,6 @@
     </div>
   </mat-accordion>
 </ng-template>
-
-<!-- <div>
-  <mat-card class="full-width3" fxLayoutAlign=" space-between center" fxLayout="column" id="content">
-
-    <div style="border-radius: 5px;" id="logo" fxLayoutAlign="center">
-      <img src="../../../../assets/logo.png">
-    </div>
-    <br>
-
-    <ng-container fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center" class="full-width">
-      <mat-card-title style="font-weight: bold; font-size: 32px;" fxLayoutAlign="center"> {{
-        (taskService.getCurrentProjectSubject() | async)?.title }}
-      </mat-card-title>
-    </ng-container>
-    <br>
-
-    <mat-card-content>
-
-      <mat-table #table [dataSource]="dataSource" matSort>
-
-        <ng-container matColumnDef="{{column.id}}" *ngFor="let column of columnNames">
-
-          <mat-header-cell *matHeaderCellDef mat-sort-header> {{column.value}}</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element[column.id]}}</mat-cell>
-
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-
-    </mat-card-content>
-
-  </mat-card>
-</div> -->
 
 <float-button *ngIf="(taskService.getCurrentProjectSubject() | async) != null" (isTaskAdded)="onAddItem()">
 </float-button>
