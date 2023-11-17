@@ -10,12 +10,13 @@ import { TaskService } from "../../services/task.service";
 export class StarRatingComponent extends TasksComponent implements OnInit {
   public stars: any[] = [];
 
-  public result: number | string = 0;
+  public result: number = 0;
 
   @Input() public model: number = 0;
+
   @Output() public modelChange = new EventEmitter();
 
-  @Output() public value = this.value;
+  @Output() public value: number = this.value;
 
   @Input() public size: number = 0;
 
@@ -24,6 +25,13 @@ export class StarRatingComponent extends TasksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.model % 1 < 0.5) {
+      this.model = Math.floor(this.model);
+    } else if (this.model % 1 > 0.5) {
+      this.model = Math.ceil(this.model);
+      // this.modelChange.next(this.model);
+    }
+
     if (this.value > this.size) {
       this.model = 0;
     }
@@ -91,5 +99,7 @@ export class StarRatingComponent extends TasksComponent implements OnInit {
     for (let i = 0; i <= index; i++) {
       this.result = this.stars[index] + index;
     }
+
+    this.modelChange.next(this.result);
   }
 }

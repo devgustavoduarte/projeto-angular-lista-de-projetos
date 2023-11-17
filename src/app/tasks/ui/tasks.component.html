@@ -15,6 +15,6 @@
   <mat-drawer #drawer mode="side" opened>
     <app-task-categories></app-task-categories>
   </mat-drawer>
-  <app-task-content></app-task-content>
+  <app-task-content></app-task-content> <span style="color: black;">[modelStars == {{value}}]</span>
   <app-star-rating [(model)]="value" [size]="5"></app-star-rating>
 </mat-drawer-container>

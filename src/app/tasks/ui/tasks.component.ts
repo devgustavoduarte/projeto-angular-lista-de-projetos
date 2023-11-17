@@ -9,5 +9,5 @@ import { TaskService } from "../services/task.service";
 export class TasksComponent {
   constructor(public taskService: TaskService) {}
 
-  @Input() public value: number = 2.5;
+  @Input() public value: number = 1.8;
 }
