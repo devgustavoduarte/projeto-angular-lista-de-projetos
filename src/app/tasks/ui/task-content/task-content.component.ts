@@ -50,7 +50,7 @@ export class TaskContentComponent extends ItemBase<Task> implements OnInit {
   }
 
   printPdf(): void {
-    let doc = new jsPDF("p", "mm", "a4");
+    let doc = new jsPDF("l", "mm", "a4");
 
     let numberOfPages = doc.getNumberOfPages();
 

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { TaskService } from "../services/task.service";
 
 @Component({
@@ -8,4 +8,6 @@ import { TaskService } from "../services/task.service";
 })
 export class TasksComponent {
   constructor(public taskService: TaskService) {}
+
+  @Input() public value: number = 2.5;
 }

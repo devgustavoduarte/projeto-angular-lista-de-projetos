@@ -36,7 +36,7 @@ import { HideButtonComponent } from "./tasks/components/float-button/hide-button
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
-import { StarRatingComponent } from './tasks/ui/star-rating/star-rating.component';
+import { StarRatingComponent } from "./tasks/ui/star-rating/star-rating.component";
 
 @NgModule({
   declarations: [

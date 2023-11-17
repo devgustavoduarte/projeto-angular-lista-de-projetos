@@ -1,5 +1,13 @@
 <div id="stars">
-  <mat-icon *ngFor="let star of stars; let i = index;" (mouseenter)="HandleMouseEnter(i)"
-    (mouseleave)="HandleMouseLeave()" (click)="Rating(i)" [ngClass]="{checked: selectedStar > i}">star_rate</mat-icon>
-  <mat-icon *ngIf="model % 1 !== 0">star_rate_half</mat-icon>
+  <i *ngFor="let star of stars; let i = index;"
+    [ngClass]="{'bi bi-star': star === 0, 'bi bi-star-fill': star === 1, 'bi bi-star-half': star === 0.5}"
+    (click)="RatingStars(i)"></i>
+
+  <i *ngIf="size % 1 !== 0" class="bi bi-star-half"></i>
 </div>
+<p *ngIf="size >= value; else errorResult"> Rating <strong>{{result}}</strong> stars <span style="color: #00796B;"
+    class="bi bi-star-fill"></span></p>
+
+<ng-template #errorResult>
+  <p style="color: red;"><strong>TAMANHO INVALIDO</strong></p>
+</ng-template>
